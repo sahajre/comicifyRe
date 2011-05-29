@@ -1,0 +1,10 @@
+.comic .header, .comic .footer {
+	/*font-style: italic; */
+}
+
+canvas {
+	border: solid 3px #000;
+	margin: 4px;
+	width: 200px;
+	height: 260px;
+}
