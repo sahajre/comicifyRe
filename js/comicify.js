@@ -100,18 +100,36 @@ function drawDialogue(context, strip_element) {
 		context.strokeStyle = "#000";
 		context.fillStyle = "#000";
 		context.strokeRect(box_x, box_y, box_width, box_height);
-		context.fillText(dialogue.toUpperCase(), box_x + 2, box_y + 2);
+		context.fillText(dialogue.toUpperCase(), box_x + 2, box_y + 3);
 		
-		context.strokeStyle = "#fff";
-		context.moveTo(tail_x1, tail_y1);
-		context.lineTo(tail_x2, tail_y1);
-		context.stroke();
-
+		// set style
+		context.fillStyle = "#fff";
 		context.strokeStyle = "#000";
+		context.lineWidth = 2;
+		
+		context.beginPath();
 		context.moveTo(tail_x1, tail_y1);
-		context.lineTo(tail_x2, tail_y2);
 		context.lineTo(tail_x2, tail_y1);
+		context.lineTo(tail_x2, tail_y2);
+		context.lineTo(tail_x1, tail_y1);
+
+		context.fill();
 		context.stroke();
+		context.closePath();
+
+		context.fillStyle = "#fff";
+		context.strokeStyle = "#fff";
+		context.lineWidth = 2;
+
+		context.beginPath();
+		context.moveTo((tail_x1 + context.lineWidth - 1), tail_y1);
+		context.lineTo((tail_x2 - context.lineWidth + 1), tail_y1);
+
+		context.fill();
+		context.stroke();
+		context.closePath();
+
+
 
 	});
 	
