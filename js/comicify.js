@@ -19,6 +19,8 @@ function drawLine(context, from_x, from_y, to_x, to_y) {
 	context.beginPath();
 	context.moveTo(from_x, from_y);
 	context.lineTo(to_x, to_y);
+	context.strokeStyle = "#000";
+	context.lineWidth = "2";
 	context.stroke();
 }
 
@@ -26,14 +28,15 @@ function drawHeader(context, strip_element) {
 	var header = $(strip_element).find(".header").html();
 	if( header != null ) {
 		var width = 200; //TODO: find 
-		alert("header is " + header);
-		context.fillStyle = "rgba(255, 255, 255, 0.9)";
-		context.fillRect(0, 0, width, 18);
+		context.fillStyle = "rgba(255, 255, 255, 1.0)";
+		context.fillRect(0, 0, width, 20);
+
 		context.textBaseline = "top";
-		context.font = "12px cursive";
+		context.font = "italic 12px cursive";
 		context.strokeStyle = "#000";
-		context.fillText(header.toUpperCase(), 1, 1);
-		drawFullHorizontalLine(context, 18, width);
+		context.fillStyle = "#000";
+		context.fillText(header.toUpperCase(), 2, 2);
+		drawFullHorizontalLine(context, 20, width);
 	}
 }
 
@@ -42,38 +45,96 @@ function drawFooter(context, strip_element) {
 	if( footer != null ) {
 		var width = 200; //TODO: find 
 		var height = 260; //TODO: find 
-		alert( "footer is " + footer );
-		context.fillStyle = "rgba(255, 255, 255, 0.9)";
-		context.fillRect(0, height - 18, width, 18);
+		context.fillStyle = "rgba(255, 255, 255, 1.0)";
+		context.fillRect(0, height - 20, width, 20);
+
 		context.textBaseline = "top";
 		context.font = "12px cursive";
-		context.strokeStyle = "black";
+		context.strokeStyle = "#000";
+		context.fillStyle = "#000";
 		context.fillText(footer.toUpperCase(), 1, height - 16);
-		drawFullHorizontalLine(context, height - 18, width);
+		drawFullHorizontalLine(context, height - 20, width);
 	}
+}
+
+function drawDialogue(context, strip_element) {
+	$(strip_element).find(".dialogue").each( function() {
+		var dialogue = $(this).html();
+		var width  = 200; //TODO: find 
+		var height = 260; //TODO: find 
+		var box_x = 0, box_y = 0, tail_x1, tail_x2, tail_y1, tail_y2;	
+
+		context.textBaseline = "top";
+		context.font = "12px cursive";
+		context.strokeStyle = "#000";
+		context.fillStyle = "#000";
+		var metrics  = context.measureText(dialogue);
+	      	var box_width  = metrics.width;
+		box_width += 35; //TODO: find, why adjustment required?
+		var box_height = 20; //TODO: find
+		var tail_height = 18;
+		var tail_width = 10;
+
+		if($(strip_element).find(".top").html() != null) {
+			box_y = 30;
+			if($(strip_element).find(".left").html() != null) {
+				box_x = 8;
+				tail_x1 = box_x + (box_width/2) - (tail_width/2);
+				tail_x2 = tail_x1 + tail_width;
+				tail_y1 = box_y + box_height;
+				tail_y2  = tail_y1 + tail_height; 
+			}
+		} else if($(strip_element).find(".bottom").html() != null) {
+			box_y = height / 2 + 30;
+			if($(strip_element).find(".left").html() != null) {
+				box_x = 8;
+				tail_x1 = box_x + (box_width/2) - (tail_width/2);
+				tail_x2 = tail_x1 + tail_width;
+				tail_y1 = box_y;
+				tail_y2  = tail_y1 - tail_height; 
+			}
+		}
+		
+		context.fillStyle = "rgba(255, 255, 255, 1.0)";
+		context.fillRect(box_x, box_y, box_width, box_height);
+		context.strokeStyle = "#000";
+		context.fillStyle = "#000";
+		context.strokeRect(box_x, box_y, box_width, box_height);
+		context.fillText(dialogue.toUpperCase(), box_x + 2, box_y + 2);
+		
+		context.strokeStyle = "#fff";
+		context.moveTo(tail_x1, tail_y1);
+		context.lineTo(tail_x2, tail_y1);
+		context.stroke();
+
+		context.strokeStyle = "#000";
+		context.moveTo(tail_x1, tail_y1);
+		context.lineTo(tail_x2, tail_y2);
+		context.lineTo(tail_x2, tail_y1);
+		context.stroke();
+
+	});
+	
 }
 
 function drawBackground(context, strip_element) {
 	var background = $(strip_element).find(".background").html();
+	//alert("background html " + background);
 	if( background != null) {
 		var background_img = $(background).attr("src");
 		if(background_img != null) {
-			alert(background_img);
 			var img = new Image();
 			img.src = background_img.toString();
-			alert(img.src);
-			//img.src = "http://rahul.upakare.com/wp-content/uploads/2010/10/02102010134-300x225.jpg";
-			//img.src = "file:///C:/Documents%20and%20Settings/rahulu/bb/nemo/examples/cpp/images/1.jpg";
-			//img.src = "https://lh5.googleusercontent.com/-4NP72kSDBFA/AAAAAAAAAAI/AAAAAAAAAAA/AZ3jS_iuw2U/photo.jpg";
+
 			img.onload = function () {
 				var imgWidth = img.width;
 				var imgHeight = img.height;
-				alert("image width = " + imgWidth + " image height " + imgHeight);
 				var x = 0, y = 0, width = 200, height = 260;
 				context.drawImage(img, 0, 0, imgWidth, imgHeight, x, y, width, height);
 				drawHeader(context, strip_element);
 				drawFooter(context, strip_element);
 				//drawEllipse(context, 90, 40, 180, 100); 
+				drawDialogue(context, strip_element);
 			}
 		}
 	}
@@ -112,7 +173,7 @@ function drawEllipse(context, rectx0, recty0, rectx1, recty1) {
 }
 
 function makeComicStrip(strip_id, strip_element) {
-	alert(strip_id);
+	//alert(strip_id);
 	context = document.getElementById(strip_id).getContext("2d");
 	if(!context) {
 		return;
@@ -143,13 +204,13 @@ function makeComic() {
 				
 				var height = $(this).parent().find("canvas").css("height");
 				if(height != null) {
-					alert("canvas height " + parseInt(height));
+					//alert("canvas height " + parseInt(height));
 					$(this).parent().find("canvas").attr("height", ""+(parseInt(height)));
 				}
 
 				var width = $(this).parent().find("canvas").css("width");
 				if(width != null) {
-					alert("canvas width " + parseInt(width));
+					//alert("canvas width " + parseInt(width));
 					$(this).parent().find("canvas").attr("width", ""+(parseInt(width)));
 				}
 				*/
