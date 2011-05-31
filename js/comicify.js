@@ -1,3 +1,9 @@
+/*!
+ * comicify Javascript Library v0.1
+ *
+ * Copyright 2011, Rahul Upakare
+ */
+
 // Add default theme
 
 var css_link_tag = document.createElement("link");
