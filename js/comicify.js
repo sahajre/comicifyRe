@@ -32,7 +32,7 @@ function drawHeader(context, strip_element) {
 		context.fillRect(0, 0, width, 20);
 
 		context.textBaseline = "top";
-		context.font = "italic 12px cursive";
+		context.font = "italic bold 12px cursive";
 		context.strokeStyle = "#000";
 		context.fillStyle = "#000";
 		context.fillText(header.toUpperCase(), 2, 2);
@@ -49,7 +49,7 @@ function drawFooter(context, strip_element) {
 		context.fillRect(0, height - 20, width, 20);
 
 		context.textBaseline = "top";
-		context.font = "12px cursive";
+		context.font = "italic bold 12px cursive";
 		context.strokeStyle = "#000";
 		context.fillStyle = "#000";
 		context.fillText(footer.toUpperCase(), 1, height - 16);
@@ -65,7 +65,7 @@ function drawDialogue(context, strip_element) {
 		var box_x = 0, box_y = 0, tail_x1, tail_x2, tail_y1, tail_y2;	
 
 		context.textBaseline = "top";
-		context.font = "12px cursive";
+		context.font = "bold 12px cursive";
 		context.strokeStyle = "#000";
 		context.fillStyle = "#000";
 		var metrics  = context.measureText(dialogue);
