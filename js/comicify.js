@@ -4,8 +4,8 @@
  * Copyright 2011, Rahul Upakare
  */
 
+(function() {
 // Add default theme
-
 var css_link_tag = document.createElement("link");
 css_link_tag.rel = "stylesheet";
 css_link_tag.href = "../themes/default/classic.css";
@@ -247,3 +247,5 @@ function makeComic() {
 }
 
 makeComic();
+
+})();
