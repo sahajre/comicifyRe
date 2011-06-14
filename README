@@ -1,6 +1,6 @@
 README
 ======
 
-This is a simple way to create comic. You can markup your cartoon using HTML and it will automatically rendered using HTML5 canvas element. 
+This is a simple way to create comic. You can markup your cartoon using HTML and it will be automatically rendered using HTML5 canvas element. 
 
 This is currently in alpha stage and your feedback is most welcomed.
